@@ -40,7 +40,9 @@
 //#include "terminfo.hpp"
 //#include "typedefs.hpp"
 
+#include <iostream>
 
+#define DEBUG_MSG(msg) std::cout << msg << std::endl;
 
 #define GDL_DEBUG
 //#undef GDL_DEBUG
@@ -376,6 +378,9 @@ else if(var_type == NC_LONG)
 
     //inquire
     status = nc_inq_var(cdfid, varid, var_name, &var_type, &var_ndims, var_dims, &var_natts);
+    // Print the variable type:
+    DEBUG_MSG("[Manu]: Read netcdf var type: "<<var_type);
+
     ncdf_handle_error(e, status, "NCDF_VARGET");
 
     //get the dimension lengths
