@@ -458,17 +458,18 @@ else if(var_type == NC_LONG)
         GDLDelete(e->GetParGlobal(2));
         e->GetParGlobal(2)=temp;      	
       } 
-      else if (var_type == NC_BYTE)
+      else if (var_type == NC_BYTE || var_type == NC_UBYTE)
       {
         DByteGDL* temp=new DByteGDL(dim,BaseGDL::NOZERO);
         status=nc_get_var_uchar(cdfid, varid, &(*temp)[0]);
-	if (status != NC_ERANGE) {
-	  ncdf_var_handle_error(e,status,"NCDF_VARGET (ici)", temp);
-	} else {
-	  Warning("Warning in NCDF_VARGET: NC_ERANGE during BYTE reading");
-	  ncdf_var_handle_error(e,status,"NCDF_VARGET (ici)", temp);
-	}
-	GDLDelete(e->GetParGlobal(2));  
+	      if (status != NC_ERANGE) {
+	        ncdf_var_handle_error(e,status,"NCDF_VARGET (ici)", temp);
+        } 
+        else {
+          Warning("Warning in NCDF_VARGET: NC_ERANGE during BYTE reading");
+          ncdf_var_handle_error(e,status,"NCDF_VARGET (ici)", temp);
+        }
+	      GDLDelete(e->GetParGlobal(2));  
         e->GetParGlobal(2)=temp;      	
       } 
       else if (var_type == NC_CHAR)
@@ -1018,6 +1019,7 @@ else if(var_type == NC_LONG)
               &((*static_cast<DIntGDL*>(val))[0])); 
             break;
           case NC_CHAR :   // 8-bit unsigned integer
+          case NC_UBYTE :   // 8-bit unsigned integer
             val = v->Convert2(GDL_BYTE, BaseGDL::COPY);
 	    val_guard.Init(val);
             status = nc_put_vars_uchar(cdfid, varid, offset, count, stride,

@@ -271,6 +271,7 @@ namespace lib {
           break;
         }
         case NC_BYTE :
+        case NC_UBYTE :
         {
           unsigned char *bp = new unsigned char[length];
           status = nc_get_att_uchar(cdfid, varid, attname.c_str(), bp);

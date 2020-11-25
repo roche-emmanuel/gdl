@@ -51,6 +51,7 @@ namespace lib {
     switch (vartype)
       {
       case NC_BYTE:  return DStringGDL("BYTE");//8 bit
+      case NC_UBYTE:  return DStringGDL("UBYTE");//8 bit
       case NC_CHAR:  return DStringGDL("CHAR");//8 bit as string
       case NC_SHORT: return DStringGDL("INT");//16 bit
       case NC_INT:   return DStringGDL("LONG");//32 bit
