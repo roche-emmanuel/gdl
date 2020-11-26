@@ -461,13 +461,33 @@ namespace lib {
     e->AssureScalarPar<DStringGDL>( 0, hdfFilename); 
     WordExp( hdfFilename);
 
-    intn access = DFACC_READ;
+    static int createIx = e->KeywordIx("CREATE");
+    static int rdwrIx = e->KeywordIx("RDWR");
+    static int readIx = e->KeywordIx("READ");
+
+    intn access;
+    if (e->KeywordSet(createIx)) access = DFACC_CREATE;
+    else if (e->KeywordSet(rdwrIx)) access = DFACC_RDWR;
+    else access = DFACC_READ;
 
     DEBUG_MSG("SW_OPEN with filename: "<<hdfFilename.c_str());
     sw_id = SWopen(hdfFilename.c_str(), access);
     DEBUG_MSG("SW_OPEN swatch id: "<<sw_id);
 
     return new DLongGDL( sw_id );
+  }
+
+  BaseGDL* hdf_eos_sw_close( EnvT* e)
+  {
+    DLong sw_id;
+    e->AssureScalarPar<DLongGDL>( 0, sw_id);
+
+    DEBUG_MSG("SW_CLOSE: should close id: "<<sw_id);
+
+    intn res = SWclose(sw_id);
+    DEBUG_MSG("SW_CLOSE result: "<<res);
+
+    return new DLongGDL( res );
   }
 
 } // namespace

@@ -301,7 +301,13 @@ void LibInit_jmg()
   };
   new DLibPro(lib::hdf_sd_dimget_pro, string("HDF_SD_DIMGET"), 1, 
     hdf_sd_dimgetKey, hdf_sd_dimgetWarnKey);
- 
+
+  // Extensions for HDF EOS
+  const string hdf_eow_sw_openKey[]={"CREATE","RDWR","READ",KLISTEND};
+  new DLibFunRetNew(lib::hdf_eos_sw_open,string("EOS_SW_OPEN"),1,hdf_eow_sw_openKey);
+
+  new DLibFunRetNew(lib::hdf_eos_sw_close,string("EOS_SW_CLOSE"),1);
+
 #endif
 
   const string tvKey[]={"TRUE","NORMAL","CHANNEL","XSIZE","YSIZE","ORDER","DEVICE","DATA","T3D","Z","CENTIMETERS","INCHES",KLISTEND};
