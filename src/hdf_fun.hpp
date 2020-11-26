@@ -20,6 +20,8 @@
 #undef NOP
 #include "datatypes.hpp"
 #include "envt.hpp"
+#include "mfhdf.h"
+#include "HdfEosDef.h"
 
 namespace lib {
 
@@ -36,7 +38,10 @@ namespace lib {
   BaseGDL* hdf_vd_attach_fun( EnvT* e);
   BaseGDL* hdf_vd_find_fun( EnvT* e);
   BaseGDL* hdf_vd_read_fun( EnvT* e);
-  
+
+  // Extensions to support HDF-EOS2:
+  BaseGDL* hdf_eos_sw_open( EnvT* e);
+
 } // namespace
 
 #endif

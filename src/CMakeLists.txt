@@ -205,6 +205,9 @@ endif(PYTHON_MODULE)
 
 add_dependencies(gdl antlr) # be sure that antlr is built before gdl
 target_link_libraries(gdl antlr) # link antlr against gdl
+
+target_link_libraries(gdl hdfeos) # link hdfeos against gdl
+
 if (MINGW)
 target_link_libraries(gdl ws2_32)
 endif (MINGW)

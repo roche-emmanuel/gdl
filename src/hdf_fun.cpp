@@ -29,6 +29,8 @@
 #include "mfhdf.h"
 #include "hdf_fun.hpp"
 
+#define DEBUG_MSG(msg) std::cout <<"[DEBUG] "<<msg<<std::endl;
+
 namespace lib {
 
   using namespace std;
@@ -448,6 +450,24 @@ namespace lib {
     DLong index = SDfindattr(s_id, attrName.c_str());
     
     return new DLongGDL( index );
+  }
+
+  BaseGDL* hdf_eos_sw_open( EnvT* e)
+  {
+    SizeT nParam=e->NParam();
+    int32 sw_id;
+
+    DString hdfFilename;
+    e->AssureScalarPar<DStringGDL>( 0, hdfFilename); 
+    WordExp( hdfFilename);
+
+    intn access = DFACC_READ;
+
+    DEBUG_MSG("SW_OPEN with filename: "<<hdfFilename.c_str());
+    sw_id = SWopen(hdfFilename.c_str(), access);
+    DEBUG_MSG("SW_OPEN swatch id: "<<sw_id);
+
+    return new DLongGDL( sw_id );
   }
 
 } // namespace
