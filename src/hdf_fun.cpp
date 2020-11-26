@@ -520,6 +520,83 @@ namespace lib {
     return new DLongGDL( res );
   }
 
+  template< typename T>
+  intn hdf_sw_readfield_template( EnvT* e, dimension dim, int32 swid, const DString& fname)
+  {
+    T* data = new T( dim, BaseGDL::NOZERO);
+
+    intn res = SWreadfield(swid, fname.c_str(), NULL, NULL, NULL, data->DataAddr());
+
+    BaseGDL** p2 = &e->GetPar(2);
+    *p2 = data;
+
+    return res;
+  }
+
+  BaseGDL* hdf_eos_sw_readfield( EnvT* e)
+  {
+    DLong swid;
+    e->AssureScalarPar<DLongGDL>( 0, swid);
+
+    DString fname;
+    e->AssureScalarPar<DStringGDL>( 1, fname); 
+    WordExp( fname);
+
+    DEBUG_MSG("SW_READFIELD: should read field "<<fname.c_str());
+
+    // We should read the dimensions of the data and type:
+    int32 rank = 0;
+    int32 dims[8]; //max of 8 dimensions in a field.
+    int32 numType = 0;
+    intn ires = SWfieldinfo(swid, fname.c_str(), &rank, dims,  &numType, NULL);
+    if(ires!=0) {
+      DEBUG_MSG("ERROR: cannot retrieve field infos: "<<fname.c_str());
+      return new DLongGDL( -1 );
+    }
+
+    DEBUG_MSG("Field "<<fname.c_str()<<" infos: rank="<<rank<<", numType="<<numType);
+
+    dimension dim((DLong *) dims, rank);
+
+    switch (numType) {
+
+    case DFNT_FLOAT64:
+      DEBUG_MSG("SW_READFIELD: Loading double data.");
+      hdf_sw_readfield_template<DDoubleGDL>(e, dim, swid, fname);
+      break;
+    case DFNT_FLOAT32: 
+      DEBUG_MSG("SW_READFIELD: Loading float data.");
+      hdf_sw_readfield_template<DFloatGDL>(e, dim, swid, fname);
+      break;
+    case DFNT_UINT32:
+      DEBUG_MSG("SW_READFIELD: Loading uint32 data.");
+      hdf_sw_readfield_template<DULongGDL>(e, dim, swid, fname);
+      break;
+    case DFNT_INT32:
+      DEBUG_MSG("SW_READFIELD: Loading int32 data.");
+      hdf_sw_readfield_template<DLongGDL>(e, dim, swid, fname);
+      break;
+    case DFNT_UINT16:
+      DEBUG_MSG("SW_READFIELD: Loading uint16 data.");
+      hdf_sw_readfield_template<DUIntGDL>(e, dim, swid, fname);
+      break;
+    case DFNT_INT16:
+      DEBUG_MSG("SW_READFIELD: Loading int16 data.");
+      hdf_sw_readfield_template<DIntGDL>(e, dim, swid, fname);
+      break;
+    case DFNT_UINT8:
+    case DFNT_INT8:
+      DEBUG_MSG("SW_READFIELD: Loading uint8 data.");
+      hdf_sw_readfield_template<DByteGDL>(e, dim, swid, fname);
+      break;
+    default:
+      DEBUG_MSG("SW_READFIELD: Unsupported data type: "<<numType);
+      return new DLongGDL( -1 );
+    }
+
+    return new DLongGDL( 0 );
+  }
+
 } // namespace
 #endif
 

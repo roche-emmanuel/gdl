@@ -310,6 +310,8 @@ void LibInit_jmg()
   new DLibFunRetNew(lib::hdf_eos_sw_attach,string("EOS_SW_ATTACH"),2);
   new DLibFunRetNew(lib::hdf_eos_sw_detach,string("EOS_SW_DETACH"),1);
 
+  new DLibFunRetNew(lib::hdf_eos_sw_readfield,string("EOS_SW_READFIELD"),3);
+
 #endif
 
   const string tvKey[]={"TRUE","NORMAL","CHANNEL","XSIZE","YSIZE","ORDER","DEVICE","DATA","T3D","Z","CENTIMETERS","INCHES",KLISTEND};

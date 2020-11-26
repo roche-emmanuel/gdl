@@ -44,6 +44,7 @@ namespace lib {
   BaseGDL* hdf_eos_sw_close( EnvT* e);
   BaseGDL* hdf_eos_sw_attach( EnvT* e);
   BaseGDL* hdf_eos_sw_detach( EnvT* e);
+  BaseGDL* hdf_eos_sw_readfield( EnvT* e);
 
 } // namespace
 
