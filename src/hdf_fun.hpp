@@ -42,6 +42,8 @@ namespace lib {
   // Extensions to support HDF-EOS2:
   BaseGDL* hdf_eos_sw_open( EnvT* e);
   BaseGDL* hdf_eos_sw_close( EnvT* e);
+  BaseGDL* hdf_eos_sw_attach( EnvT* e);
+  BaseGDL* hdf_eos_sw_detach( EnvT* e);
 
 } // namespace
 

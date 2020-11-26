@@ -307,6 +307,8 @@ void LibInit_jmg()
   new DLibFunRetNew(lib::hdf_eos_sw_open,string("EOS_SW_OPEN"),1,hdf_eow_sw_openKey);
 
   new DLibFunRetNew(lib::hdf_eos_sw_close,string("EOS_SW_CLOSE"),1);
+  new DLibFunRetNew(lib::hdf_eos_sw_attach,string("EOS_SW_ATTACH"),2);
+  new DLibFunRetNew(lib::hdf_eos_sw_detach,string("EOS_SW_DETACH"),1);
 
 #endif
 

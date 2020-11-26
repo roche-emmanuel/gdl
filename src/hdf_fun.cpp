@@ -490,6 +490,36 @@ namespace lib {
     return new DLongGDL( res );
   }
 
+  BaseGDL* hdf_eos_sw_attach( EnvT* e)
+  {
+    DLong fid;
+    e->AssureScalarPar<DLongGDL>( 0, fid);
+
+    DString swname;
+    e->AssureScalarPar<DStringGDL>( 1, swname); 
+    WordExp( swname);
+
+    DEBUG_MSG("SW_ATTACH: should attach to swatch "<<swname.c_str());
+
+    int32 sw_id = SWattach(fid, swname.c_str());
+    DEBUG_MSG("SW_ATTACH result: "<<sw_id);
+
+    return new DLongGDL( sw_id );
+  }
+
+  BaseGDL* hdf_eos_sw_detach( EnvT* e)
+  {
+    DLong swid;
+    e->AssureScalarPar<DLongGDL>( 0, swid);
+
+    DEBUG_MSG("SW_DETACH: should detach swatch "<<swid);
+
+    int32 res = SWdetach(swid);
+    DEBUG_MSG("SW_DETACH result: "<<res);
+
+    return new DLongGDL( res );
+  }
+
 } // namespace
 #endif
 
